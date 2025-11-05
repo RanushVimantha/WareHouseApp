@@ -1,0 +1,25 @@
+﻿Warehouse Management System by SDRV Senadhipathirage - 21456
+CS107.3 Object Oriented Programming with C# 
+
+
+
+INSTRUCTIONS TO RUN:
+1. Open WareHouseApp.csproj in Visual Studio
+2. Open SQL Server Management Studio and run database.sql file
+3. Make sure connection string in App.config is correct
+4. Press F5 to build and run
+
+LOGIN CREDENTIALS:
+Username: admin
+Password: admin123
+
+FEATURES IMPLEMENTED:
+- User login and sign up
+- Inventory/Material management (Add, Update, Delete, View)
+- Customer management (Add, Update, Delete, View)  
+- Employee management (Add, Update, Delete, View)
+- Dashboard with statistics
+
+DATABASE:
+- SQL Server LocalDB
+- Tables: Users, Materials, Customers, Employees
