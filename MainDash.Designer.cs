@@ -86,14 +86,15 @@ namespace WareHouseApp
             this.topCardsLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.topCardsLayout.Location = new System.Drawing.Point(23, 93);
             this.topCardsLayout.Name = "topCardsLayout";
+            this.topCardsLayout.Padding = new System.Windows.Forms.Padding(5);
             this.topCardsLayout.Size = new System.Drawing.Size(774, 154);
             this.topCardsLayout.TabIndex = 1;
             // 
             // panelMaterials
             // 
             this.panelMaterials.BackColor = System.Drawing.Color.White;
-            this.panelMaterials.Location = new System.Drawing.Point(3, 3);
-            this.panelMaterials.Margin = new System.Windows.Forms.Padding(3, 3, 10, 3);
+            this.panelMaterials.Location = new System.Drawing.Point(8, 8);
+            this.panelMaterials.Margin = new System.Windows.Forms.Padding(3, 3, 12, 3);
             this.panelMaterials.Name = "panelMaterials";
             this.panelMaterials.Size = new System.Drawing.Size(240, 140);
             this.panelMaterials.TabIndex = 0;
@@ -101,8 +102,8 @@ namespace WareHouseApp
             // panelCustomers
             // 
             this.panelCustomers.BackColor = System.Drawing.Color.White;
-            this.panelCustomers.Location = new System.Drawing.Point(256, 3);
-            this.panelCustomers.Margin = new System.Windows.Forms.Padding(3, 3, 10, 3);
+            this.panelCustomers.Location = new System.Drawing.Point(263, 8);
+            this.panelCustomers.Margin = new System.Windows.Forms.Padding(3, 3, 12, 3);
             this.panelCustomers.Name = "panelCustomers";
             this.panelCustomers.Size = new System.Drawing.Size(240, 140);
             this.panelCustomers.TabIndex = 1;
@@ -110,8 +111,8 @@ namespace WareHouseApp
             // panelEmployees
             // 
             this.panelEmployees.BackColor = System.Drawing.Color.White;
-            this.panelEmployees.Location = new System.Drawing.Point(509, 3);
-            this.panelEmployees.Margin = new System.Windows.Forms.Padding(3);
+            this.panelEmployees.Location = new System.Drawing.Point(518, 8);
+            this.panelEmployees.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.panelEmployees.Name = "panelEmployees";
             this.panelEmployees.Size = new System.Drawing.Size(240, 140);
             this.panelEmployees.TabIndex = 2;
@@ -123,14 +124,15 @@ namespace WareHouseApp
             this.middleCardsLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.middleCardsLayout.Location = new System.Drawing.Point(23, 253);
             this.middleCardsLayout.Name = "middleCardsLayout";
+            this.middleCardsLayout.Padding = new System.Windows.Forms.Padding(5);
             this.middleCardsLayout.Size = new System.Drawing.Size(774, 234);
             this.middleCardsLayout.TabIndex = 2;
             // 
             // panelInventoryValue
             // 
             this.panelInventoryValue.BackColor = System.Drawing.Color.White;
-            this.panelInventoryValue.Location = new System.Drawing.Point(3, 3);
-            this.panelInventoryValue.Margin = new System.Windows.Forms.Padding(3, 3, 10, 3);
+            this.panelInventoryValue.Location = new System.Drawing.Point(8, 8);
+            this.panelInventoryValue.Margin = new System.Windows.Forms.Padding(3, 3, 12, 3);
             this.panelInventoryValue.Name = "panelInventoryValue";
             this.panelInventoryValue.Size = new System.Drawing.Size(370, 220);
             this.panelInventoryValue.TabIndex = 0;
@@ -138,8 +140,8 @@ namespace WareHouseApp
             // panelLowStock
             // 
             this.panelLowStock.BackColor = System.Drawing.Color.White;
-            this.panelLowStock.Location = new System.Drawing.Point(386, 3);
-            this.panelLowStock.Margin = new System.Windows.Forms.Padding(3);
+            this.panelLowStock.Location = new System.Drawing.Point(393, 8);
+            this.panelLowStock.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.panelLowStock.Name = "panelLowStock";
             this.panelLowStock.Size = new System.Drawing.Size(370, 220);
             this.panelLowStock.TabIndex = 1;
