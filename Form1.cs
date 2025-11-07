@@ -109,12 +109,23 @@ namespace WareHouseApp
 
             try
             {
+                // Try to login as Admin first
                 bool isLoggedIn = admin.Login(userName, password);
+                string userRole = "Admin";
+                
+                // If Admin login fails, try Operator
+                if (!isLoggedIn)
+                {
+                    Operator operatorUser = new Operator();
+                    isLoggedIn = operatorUser.Login(userName, password);
+                    userRole = "Operator";
+                }
                 
                 if (isLoggedIn)
                 {
                     this.Hide();
-                    DashBoard dashboard = new DashBoard(userName);
+                    // Pass username and role to dashboard
+                    DashBoard dashboard = new DashBoard(userName, userRole);
                     dashboard.FormClosed += (s, args) => this.Close();
                     dashboard.Show();
                 }

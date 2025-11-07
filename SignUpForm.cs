@@ -14,6 +14,8 @@ namespace WareHouseApp
         {
             InitializeComponent();
             _data = new DataAccess();
+            // Set default role to Operator (safer default)
+            cmbRole.SelectedIndex = 1; // Index 1 = Operator
         }
 
         private void btnSignUp_Click(object sender, EventArgs e)
@@ -40,6 +42,14 @@ namespace WareHouseApp
                 return;
             }
 
+            // Make sure user selected a role
+            if (cmbRole.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a role.", "Validation Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 // Check if username already exists
@@ -53,15 +63,19 @@ namespace WareHouseApp
                     return;
                 }
 
-                // Insert new user (default role: Admin)
-                string insertSql = "INSERT INTO Users (UserName, [Password], [Role]) VALUES (@username, @password, 'Admin')";
+                // Get selected role from dropdown
+                string selectedRole = cmbRole.SelectedItem.ToString();
+
+                // Insert new user with selected role
+                string insertSql = "INSERT INTO Users (UserName, [Password], [Role]) VALUES (@username, @password, @role)";
                 int rowsAffected = _data.ExecuteNonQuery(insertSql,
                     new SqlParameter("@username", txtUsername.Text),
-                    new SqlParameter("@password", txtPassword.Text));
+                    new SqlParameter("@password", txtPassword.Text),
+                    new SqlParameter("@role", selectedRole));
 
                 if (rowsAffected > 0)
                 {
-                    MessageBox.Show("Account created successfully! You can now login.", 
+                    MessageBox.Show("Account created successfully as " + selectedRole + "!\nYou can now login.", 
                         "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }

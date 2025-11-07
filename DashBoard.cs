@@ -13,12 +13,15 @@ namespace WareHouseApp
     public partial class DashBoard : Form
     {
         private string userName;
+        private string userRole; // Store user role for access control
         private UserControl currentControl;
 
-        public DashBoard(string user)
+        // Constructor now accepts both username and role
+        public DashBoard(string user, string role)
         {
             InitializeComponent();
             userName = user;
+            userRole = role;
             ConfigureDashboard();
         }
 
@@ -31,7 +34,8 @@ namespace WareHouseApp
             button5.Text = "ℹ️ About";
             button6.Text = "🚪 Logout";
 
-            button7.Text = "👤 " + userName;
+            // Show username and role in the profile button
+            button7.Text = "👤 " + userName + " (" + userRole + ")";
             button8.Text = "⚙️ Settings";
             button9.Text = "📊 Dashboard";
 
@@ -42,8 +46,49 @@ namespace WareHouseApp
             button6.Click += btnLogout_Click;
             button7.Click += btnProfile_Click;
 
+            // Restrict employee management to Admin only
+            if (userRole == "Operator")
+            {
+                button4.Enabled = false;
+                button4.BackColor = Color.Gray;
+                button4.Text = "👔 Employees (Admin Only)";
+            }
+
+            // Add a visual role badge at the top
+            AddRoleBadge();
+
             StyleMenuButtons();
             ShowMainDash();
+        }
+
+        // Create a colored badge showing user role
+        private void AddRoleBadge()
+        {
+            Label roleBadge = new Label();
+            roleBadge.AutoSize = false;
+            roleBadge.Size = new Size(120, 30);
+            roleBadge.TextAlign = ContentAlignment.MiddleCenter;
+            roleBadge.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            
+            if (userRole == "Admin")
+            {
+                roleBadge.Text = "🔑 ADMIN";
+                roleBadge.BackColor = Color.FromArgb(46, 204, 113); // Green for admin
+                roleBadge.ForeColor = Color.White;
+            }
+            else
+            {
+                roleBadge.Text = "👤 OPERATOR";
+                roleBadge.BackColor = Color.FromArgb(52, 152, 219); // Blue for operator
+                roleBadge.ForeColor = Color.White;
+            }
+            
+            // Position it in the top right corner
+            roleBadge.Location = new Point(this.Width - 150, 10);
+            roleBadge.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            
+            this.Controls.Add(roleBadge);
+            roleBadge.BringToFront();
         }
 
         private void StyleMenuButtons()
@@ -120,6 +165,14 @@ namespace WareHouseApp
 
         private void btnEmployees_Click(object sender, EventArgs e)
         {
+            // Double-check permission (just in case)
+            if (userRole != "Admin")
+            {
+                MessageBox.Show("Access Denied! Only Admins can manage employees.", 
+                    "Permission Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            
             mainDash1.Visible = false;
             ShowControl(new EmployeeManagement());
         }
@@ -140,8 +193,13 @@ namespace WareHouseApp
 
         private void btnProfile_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"Logged in as: {userName}", "Profile", 
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // Show user info including their role
+            string permissions = (userRole == "Admin") 
+                ? "Full Access (Manage Materials, Customers, and Employees)" 
+                : "Limited Access (View Materials and Customers only)";
+            
+            MessageBox.Show($"Username: {userName}\nRole: {userRole}\n\nPermissions:\n{permissions}", 
+                "User Profile", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

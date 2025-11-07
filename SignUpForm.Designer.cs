@@ -22,6 +22,8 @@ namespace WareHouseApp
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblPassword = new System.Windows.Forms.Label();
             this.lblConfirmPassword = new System.Windows.Forms.Label();
+            this.lblRole = new System.Windows.Forms.Label();
+            this.cmbRole = new System.Windows.Forms.ComboBox();
             this.btnSignUp = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.linkLogin = new System.Windows.Forms.LinkLabel();
@@ -95,6 +97,27 @@ namespace WareHouseApp
             this.lblConfirmPassword.TabIndex = 7;
             this.lblConfirmPassword.Text = "Confirm Password:";
             // 
+            // lblRole
+            // 
+            this.lblRole.AutoSize = true;
+            this.lblRole.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblRole.Location = new System.Drawing.Point(250, 255);
+            this.lblRole.Name = "lblRole";
+            this.lblRole.Size = new System.Drawing.Size(48, 23);
+            this.lblRole.TabIndex = 8;
+            this.lblRole.Text = "Role:";
+            // 
+            // cmbRole
+            // 
+            this.cmbRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.cmbRole.FormattingEnabled = true;
+            this.cmbRole.Items.AddRange(new object[] { "Admin", "Operator" });
+            this.cmbRole.Location = new System.Drawing.Point(250, 280);
+            this.cmbRole.Name = "cmbRole";
+            this.cmbRole.Size = new System.Drawing.Size(250, 33);
+            this.cmbRole.TabIndex = 3;
+            // 
             // btnSignUp
             // 
             this.btnSignUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(146)))), ((int)(((byte)(18)))));
@@ -102,7 +125,7 @@ namespace WareHouseApp
             this.btnSignUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSignUp.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.btnSignUp.ForeColor = System.Drawing.Color.White;
-            this.btnSignUp.Location = new System.Drawing.Point(250, 280);
+            this.btnSignUp.Location = new System.Drawing.Point(250, 340);
             this.btnSignUp.Name = "btnSignUp";
             this.btnSignUp.Size = new System.Drawing.Size(120, 45);
             this.btnSignUp.TabIndex = 9;
@@ -117,7 +140,7 @@ namespace WareHouseApp
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.btnCancel.ForeColor = System.Drawing.Color.White;
-            this.btnCancel.Location = new System.Drawing.Point(380, 280);
+            this.btnCancel.Location = new System.Drawing.Point(380, 340);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(120, 45);
             this.btnCancel.TabIndex = 10;
@@ -129,7 +152,7 @@ namespace WareHouseApp
             // 
             this.linkLogin.AutoSize = true;
             this.linkLogin.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.linkLogin.Location = new System.Drawing.Point(280, 340);
+            this.linkLogin.Location = new System.Drawing.Point(280, 400);
             this.linkLogin.Name = "linkLogin";
             this.linkLogin.Size = new System.Drawing.Size(200, 23);
             this.linkLogin.TabIndex = 11;
@@ -150,10 +173,12 @@ namespace WareHouseApp
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(600, 400);
+            this.ClientSize = new System.Drawing.Size(600, 450);
             this.Controls.Add(this.linkLogin);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSignUp);
+            this.Controls.Add(this.cmbRole);
+            this.Controls.Add(this.lblRole);
             this.Controls.Add(this.lblConfirmPassword);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.lblUsername);
@@ -178,6 +203,8 @@ namespace WareHouseApp
         private System.Windows.Forms.Label lblUsername;
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.Label lblConfirmPassword;
+        private System.Windows.Forms.Label lblRole;
+        private System.Windows.Forms.ComboBox cmbRole;
         private System.Windows.Forms.Button btnSignUp;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.LinkLabel linkLogin;

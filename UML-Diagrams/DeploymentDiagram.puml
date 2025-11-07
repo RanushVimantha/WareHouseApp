@@ -1,0 +1,128 @@
+@startuml WareHouseApp_DeploymentDiagram
+
+skinparam node {
+    BackgroundColor White
+    BorderColor Black
+}
+skinparam component {
+    BackgroundColor LightBlue
+    BorderColor Black
+}
+
+' Client Node
+node "Client Workstation\n(Windows PC)" as ClientNode {
+    component [Windows OS\nWindows 10/11] as OS
+    
+    artifact "WareHouseApp.exe" as AppExe {
+        component [Presentation Layer\n(Windows Forms)] as UI
+        component [Business Logic Layer\n(Repositories, Admin)] as BLL
+        component [Data Access Layer\n(ADO.NET)] as DAL
+    }
+    
+    artifact "App.config" as AppConfig {
+        component [Connection Strings] as ConnStrings
+        component [App Settings] as AppSettings
+    }
+    
+    artifact "Resources" as Resources {
+        component [Images\n(.png files)] as Images
+        component [String Resources] as Strings
+    }
+    
+    component [.NET Framework 4.7.2+\nRuntime] as DotNetRuntime
+}
+
+' Database Server Node
+node "Database Server\n(Local/Network)" as DBNode {
+    component [SQL Server Express/LocalDB\n2016+] as SQLServer
+    
+    database "WarehouseDB.mdf" as DBFile {
+        component [Users Table] as UsersTable
+        component [Customers Table] as CustomersTable
+        component [Employees Table] as EmployeesTable
+        component [Materials Table] as MaterialsTable
+    }
+    
+    artifact "WarehouseDB_log.ldf" as LogFile
+}
+
+' Network
+cloud "Network Connection" as Network {
+    component [TCP/IP] as TCPIP
+    component [SQL Server Protocol\n(TDS)] as TDS
+}
+
+' Deployment Relationships
+UI --> BLL : <<uses>>
+BLL --> DAL : <<uses>>
+DAL --> ConnStrings : <<reads>>
+UI --> Resources : <<loads>>
+
+AppExe --> DotNetRuntime : <<runs on>>
+DotNetRuntime --> OS : <<hosted on>>
+
+DAL -down-> Network : <<SQL queries>>
+Network -down-> SQLServer : <<connects>>
+
+SQLServer --> DBFile : <<reads/writes>>
+SQLServer --> LogFile : <<transaction log>>
+
+' Communication Protocols
+note right of Network
+  Protocol: TCP/IP
+  Port: 1433 (default SQL Server)
+  or Named Pipes for LocalDB
+  
+  Connection String Format:
+  Data Source=(LocalDB)\\MSSQLLocalDB;
+  AttachDbFilename=|DataDirectory|\\WarehouseDB.mdf;
+  Integrated Security=True
+end note
+
+note left of AppExe
+  Deployment Files:
+  - WareHouseApp.exe
+  - App.config
+  - WarehouseDB.mdf
+  - WarehouseDB_log.ldf
+  - Resources folder (images)
+  
+  Requirements:
+  - .NET Framework 4.7.2+
+  - Windows 7+
+  - SQL Server Express/LocalDB
+end note
+
+note bottom of DBFile
+  Database Schema:
+  - Users (UserID, UserName, Password, Role)
+  - Customers (CustomerID, FirstName, LastName, Email, Phone, Address)
+  - Employees (EmployeeID, FirstName, LastName, Role, Email, Phone, Address, UserID)
+  - Materials (MaterialID, MaterialName, Quantity, Price, Description)
+end note
+
+' Deployment Scenarios
+package "Deployment Scenarios" {
+    component [Standalone\n(Single PC)] as Standalone
+    component [Multi-User\n(Network DB)] as MultiUser
+}
+
+note right of Standalone
+  Scenario 1: Single User
+  - Application and database on same machine
+  - Uses SQL Server LocalDB
+  - No network required
+  - Suitable for small warehouse
+end note
+
+note right of MultiUser
+  Scenario 2: Multi-User
+  - Application on multiple client PCs
+  - Centralized SQL Server on network
+  - Requires network connectivity
+  - Supports concurrent users
+  - Suitable for medium warehouse
+end note
+
+@enduml
+

@@ -23,6 +23,28 @@ namespace WareHouseApp
             _repository = new CustomerRepository();
             LoadCustomers();
             ClearForm();
+            this.Resize += CustomerManagement_Resize;
+            CenterContent();
+        }
+
+        private void CustomerManagement_Resize(object sender, EventArgs e)
+        {
+            CenterContent();
+        }
+
+        private void CenterContent()
+        {
+            // Calculate center position for all elements
+            int centerX = (this.Width - panel1.Width) / 2;
+            
+            // Center the title
+            lblTitle.Location = new Point(centerX, lblTitle.Location.Y);
+            
+            // Center the input panel
+            panel1.Location = new Point(centerX, panel1.Location.Y);
+            
+            // Center the data grid
+            dgvCustomers.Location = new Point(centerX, dgvCustomers.Location.Y);
         }
 
         private void LoadCustomers()

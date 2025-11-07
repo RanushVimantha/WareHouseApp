@@ -1,0 +1,172 @@
+@startuml WareHouseApp_UserSessionState
+
+skinparam state {
+    BackgroundColor White
+    BorderColor Black
+    ArrowColor Black
+}
+
+[*] --> ApplicationStarted : Launch Application
+
+state ApplicationStarted {
+    [*] --> ShowingLoginForm
+    
+    state ShowingLoginForm {
+        [*] --> AwaitingCredentials
+        
+        state AwaitingCredentials : User can enter username/password
+        state ValidatingCredentials : Checking credentials against database
+        state ShowingSignUpForm : New user registration
+        
+        AwaitingCredentials --> ValidatingCredentials : Click Login
+        ValidatingCredentials --> AwaitingCredentials : Invalid credentials\n[Show error message]
+        AwaitingCredentials --> ShowingSignUpForm : Click Sign Up link
+        ShowingSignUpForm --> AwaitingCredentials : Registration complete\nor cancel
+    }
+    
+    ShowingLoginForm --> Authenticated : Valid credentials\n[Admin.Login() returns true]
+}
+
+state Authenticated {
+    [*] --> ShowingDashboard
+    
+    state ShowingDashboard {
+        [*] --> DashboardView
+        
+        state DashboardView : Displaying main dashboard with statistics
+        note right of DashboardView
+            Dashboard shows:
+            - Material count
+            - Customer count
+            - Employee count
+            - Inventory value
+            - Low stock alerts
+            - System status
+        end note
+    }
+    
+    state ManagingCustomers {
+        [*] --> ViewingCustomers
+        
+        state ViewingCustomers : Customer list displayed in grid
+        state AddingCustomer : Form ready for new customer
+        state EditingCustomer : Form populated with selected customer
+        state DeletingCustomer : Confirming deletion
+        
+        ViewingCustomers --> AddingCustomer : Click Add
+        AddingCustomer --> ViewingCustomers : Save successful\n[Repository.Add()]
+        AddingCustomer --> AddingCustomer : Validation failed
+        
+        ViewingCustomers --> EditingCustomer : Select customer row
+        EditingCustomer --> ViewingCustomers : Update successful\n[Repository.Update()]
+        EditingCustomer --> EditingCustomer : Validation failed
+        
+        ViewingCustomers --> DeletingCustomer : Select & click Delete
+        DeletingCustomer --> ViewingCustomers : Confirmed\n[Repository.Delete()]
+        DeletingCustomer --> ViewingCustomers : Cancelled
+    }
+    
+    state ManagingEmployees {
+        [*] --> ViewingEmployees
+        
+        state ViewingEmployees : Employee list displayed in grid
+        state AddingEmployee : Form ready for new employee
+        state EditingEmployee : Form populated with selected employee
+        state DeletingEmployee : Confirming deletion
+        
+        ViewingEmployees --> AddingEmployee : Click Add
+        AddingEmployee --> ViewingEmployees : Save successful\n[Repository.Add()]
+        AddingEmployee --> AddingEmployee : Validation failed
+        
+        ViewingEmployees --> EditingEmployee : Select employee row
+        EditingEmployee --> ViewingEmployees : Update successful\n[Repository.Update()]
+        EditingEmployee --> EditingEmployee : Validation failed
+        
+        ViewingEmployees --> DeletingEmployee : Select & click Delete
+        DeletingEmployee --> ViewingEmployees : Confirmed\n[Repository.Delete()]
+        DeletingEmployee --> ViewingEmployees : Cancelled
+    }
+    
+    state ManagingMaterials {
+        [*] --> ViewingMaterials
+        
+        state ViewingMaterials : Material list displayed in grid
+        state AddingMaterial : Form ready for new material
+        state EditingMaterial : Form populated with selected material
+        state DeletingMaterial : Confirming deletion
+        
+        ViewingMaterials --> AddingMaterial : Click Add
+        AddingMaterial --> ViewingMaterials : Save successful\n[Repository.Add()]
+        AddingMaterial --> AddingMaterial : Validation failed
+        
+        ViewingMaterials --> EditingMaterial : Select material row
+        EditingMaterial --> ViewingMaterials : Update successful\n[Repository.Update()]
+        EditingMaterial --> EditingMaterial : Validation failed
+        
+        ViewingMaterials --> DeletingMaterial : Select & click Delete
+        DeletingMaterial --> ViewingMaterials : Confirmed\n[Repository.Delete()]
+        DeletingMaterial --> ViewingMaterials : Cancelled
+    }
+    
+    ' Navigation between authenticated states
+    ShowingDashboard --> ManagingCustomers : Click Customers menu
+    ShowingDashboard --> ManagingEmployees : Click Employees menu
+    ShowingDashboard --> ManagingMaterials : Click Materials menu
+    
+    ManagingCustomers --> ShowingDashboard : Click Home
+    ManagingEmployees --> ShowingDashboard : Click Home
+    ManagingMaterials --> ShowingDashboard : Click Home
+    
+    ManagingCustomers --> ManagingEmployees : Click Employees menu
+    ManagingCustomers --> ManagingMaterials : Click Materials menu
+    ManagingEmployees --> ManagingCustomers : Click Customers menu
+    ManagingEmployees --> ManagingMaterials : Click Materials menu
+    ManagingMaterials --> ManagingCustomers : Click Customers menu
+    ManagingMaterials --> ManagingEmployees : Click Employees menu
+}
+
+Authenticated --> LoggingOut : Click Logout button
+
+state LoggingOut {
+    [*] --> ConfirmingLogout
+    
+    state ConfirmingLogout : Show logout confirmation dialog
+    
+    ConfirmingLogout --> Authenticated : User cancels\n[DialogResult.No]
+}
+
+LoggingOut --> LoggedOut : User confirms\n[DialogResult.Yes]
+
+state LoggedOut {
+    state ClearingSession : Admin.Logout() called
+    state ClosingDashboard : Dashboard form closing
+    state ShowingLoginAgain : Return to login screen
+    
+    [*] --> ClearingSession
+    ClearingSession --> ClosingDashboard
+    ClosingDashboard --> ShowingLoginAgain
+}
+
+LoggedOut --> ApplicationStarted : Show login form
+
+ApplicationStarted --> [*] : Close application
+
+note top of ApplicationStarted
+    Entry Point: Form1 (Login Form)
+    Initial State: Not Authenticated
+end note
+
+note bottom of Authenticated
+    Main Container: DashBoard Form
+    Session: Admin object with UserName
+end note
+
+note right of LoggedOut
+    Cleanup Actions:
+    - Clear Admin credentials
+    - Dispose UserControls
+    - Reset UI state
+end note
+
+@enduml
+

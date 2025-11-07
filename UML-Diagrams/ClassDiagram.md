@@ -1,0 +1,276 @@
+# WareHouse Application - Class Diagram
+
+```plantuml
+@startuml WareHouseApp_ClassDiagram
+
+' Styling
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classBackgroundColor White
+skinparam classBorderColor Black
+
+' Entity Classes
+package "Entities" {
+    class Customer {
+        + CustomerID : int
+        + FirstName : string
+        + LastName : string
+        + Email : string
+        + Phone : string
+        + Address : string
+    }
+
+    class Employee {
+        + EmployeeID : int
+        + FirstName : string
+        + LastName : string
+        + Role : string
+        + Email : string
+        + Phone : string
+        + Address : string
+        + UserID : int
+    }
+}
+
+package "Materials" {
+    class Material {
+        + MaterialID : int
+        + MaterialName : string
+        + Quantity : int
+        + Price : decimal
+        + Description : string
+    }
+}
+
+' People/Authentication Classes
+package "People" {
+    abstract class Person {
+        # Id : int
+        # UserName : string
+        # Password : string
+        + {abstract} Login(username: string, password: string) : bool
+        + {abstract} ChangePassword(newPassword: string) : void
+        + {abstract} Logout() : void
+    }
+
+    class Admin {
+        - _data : DataAccess
+        + Admin()
+        + Login(username: string, password: string) : bool
+        + ChangePassword(newPassword: string) : void
+        + Logout() : void
+    }
+}
+
+' Data Access Layer
+package "Data" {
+    class DataAccess {
+        - _connectionString : string
+        + DataAccess()
+        + ExecuteNonQuery(query: string, parameters: SqlParameter[]) : int
+        + ExecuteScalar(query: string, parameters: SqlParameter[]) : object
+        + ExecuteQuery(query: string, parameters: SqlParameter[]) : DataTable
+    }
+}
+
+' Repository Pattern
+package "Repositories" {
+    class CustomerRepository {
+        - _data : DataAccess
+        + CustomerRepository()
+        + GetAll() : IEnumerable<Customer>
+        + GetById(customerId: int) : Customer
+        + Add(customer: Customer) : void
+        + Update(customer: Customer) : void
+        + Delete(customerId: int) : void
+        + Search(searchText: string) : IEnumerable<Customer>
+    }
+
+    class EmployeeRepository {
+        - _data : DataAccess
+        + EmployeeRepository()
+        + GetAll() : IEnumerable<Employee>
+        + GetById(employeeId: int) : Employee
+        + Add(employee: Employee) : void
+        + Update(employee: Employee) : void
+        + Delete(employeeId: int) : void
+        + Search(searchText: string) : IEnumerable<Employee>
+    }
+
+    class MaterialRepository {
+        - _data : DataAccess
+        + MaterialRepository()
+        + GetAll() : IEnumerable<Material>
+        + Add(material: Material) : void
+        + Update(material: Material) : void
+        + Delete(materialId: int) : void
+    }
+}
+
+' UI Forms/Controls
+package "UI Forms" {
+    class Form1 <<Form>> {
+        - admin : Admin
+        - loginPage : LoginPage
+        + Form1()
+        - AddPlaceholders() : void
+        - RemoveUsernamePlaceholder(sender: object, e: EventArgs) : void
+        - AddUsernamePlaceholder(sender: object, e: EventArgs) : void
+        - RemovePasswordPlaceholder(sender: object, e: EventArgs) : void
+        - AddPasswordPlaceholder(sender: object, e: EventArgs) : void
+        - butLogin_Click(sender: object, e: EventArgs) : void
+        - linkSignUp_LinkClicked(sender: object, e: LinkLabelLinkClickedEventArgs) : void
+    }
+
+    class SignUpForm <<Form>> {
+        - _data : DataAccess
+        + SignUpForm()
+        - btnSignUp_Click(sender: object, e: EventArgs) : void
+        - btnCancel_Click(sender: object, e: EventArgs) : void
+        - linkLogin_LinkClicked(sender: object, e: LinkLabelLinkClickedEventArgs) : void
+    }
+
+    class DashBoard <<Form>> {
+        - userName : string
+        - currentControl : UserControl
+        + DashBoard(user: string)
+        - ConfigureDashboard() : void
+        - StyleMenuButtons() : void
+        - ShowControl(control: UserControl) : void
+        - ShowMainDash() : void
+        - btnHome_Click(sender: object, e: EventArgs) : void
+        - btnMaterials_Click(sender: object, e: EventArgs) : void
+        - btnCustomers_Click(sender: object, e: EventArgs) : void
+        - btnEmployees_Click(sender: object, e: EventArgs) : void
+        - btnLogout_Click(sender: object, e: EventArgs) : void
+        - btnProfile_Click(sender: object, e: EventArgs) : void
+    }
+
+    class MainDash <<UserControl>> {
+        - _data : DataAccess
+        + MainDash()
+        - MainDash_Resize(sender: object, e: EventArgs) : void
+        - StylePanels() : void
+        - Panel_Paint(sender: object, e: PaintEventArgs) : void
+        - GetRoundedRectanglePath(rect: Rectangle, radius: int) : GraphicsPath
+        - LoadDashboardData() : void
+        - CreateStatCard(panel: Panel, icon: string, title: string, value: string, accentColor: Color, subtitle: string) : void
+        - CreateInventoryValuePanel(totalValue: decimal, itemCount: int) : void
+        - CreateLowStockPanel(lowStockCount: int) : void
+        - CreateRecentActivityPanel() : void
+        - GetMaterialCount() : int
+        - GetCustomerCount() : int
+        - GetEmployeeCount() : int
+        - GetTotalInventoryValue() : decimal
+        - GetLowStockCount() : int
+    }
+
+    class CustomerManagement <<UserControl>> {
+        - _repository : CustomerRepository
+        - _selectedCustomerId : int
+        + CustomerManagement()
+        - LoadCustomers() : void
+        - ClearForm() : void
+        - ValidateInput() : bool
+        - btnAdd_Click(sender: object, e: EventArgs) : void
+        - btnUpdate_Click(sender: object, e: EventArgs) : void
+        - btnDelete_Click(sender: object, e: EventArgs) : void
+        - btnClear_Click(sender: object, e: EventArgs) : void
+        - btnSearch_Click(sender: object, e: EventArgs) : void
+        - dgvCustomers_CellClick(sender: object, e: DataGridViewCellEventArgs) : void
+    }
+
+    class EmployeeManagement <<UserControl>> {
+        - _repository : EmployeeRepository
+        - _selectedEmployeeId : int
+        + EmployeeManagement()
+        - LoadEmployees() : void
+        - ClearForm() : void
+        - ValidateInput() : bool
+        - btnAdd_Click(sender: object, e: EventArgs) : void
+        - btnUpdate_Click(sender: object, e: EventArgs) : void
+        - btnDelete_Click(sender: object, e: EventArgs) : void
+        - btnClear_Click(sender: object, e: EventArgs) : void
+        - btnSearch_Click(sender: object, e: EventArgs) : void
+        - dgvEmployees_CellClick(sender: object, e: DataGridViewCellEventArgs) : void
+    }
+
+    class MaterialManagement <<UserControl>> {
+        - _repository : MaterialRepository
+        - _selectedMaterialId : int
+        + MaterialManagement()
+        - LoadMaterials() : void
+        - ClearForm() : void
+        - ValidateInput() : bool
+        - btnAdd_Click(sender: object, e: EventArgs) : void
+        - btnUpdate_Click(sender: object, e: EventArgs) : void
+        - btnDelete_Click(sender: object, e: EventArgs) : void
+        - btnClear_Click(sender: object, e: EventArgs) : void
+        - btnSearch_Click(sender: object, e: EventArgs) : void
+        - dgvMaterials_CellClick(sender: object, e: DataGridViewCellEventArgs) : void
+    }
+}
+
+' Relationships
+Person <|-- Admin : inherits
+Admin --> DataAccess : uses
+Form1 --> Admin : uses
+SignUpForm --> DataAccess : uses
+DashBoard --> MainDash : contains
+DashBoard --> CustomerManagement : loads
+DashBoard --> EmployeeManagement : loads
+DashBoard --> MaterialManagement : loads
+MainDash --> DataAccess : uses
+
+CustomerRepository --> DataAccess : uses
+EmployeeRepository --> DataAccess : uses
+MaterialRepository --> DataAccess : uses
+
+CustomerManagement --> CustomerRepository : uses
+CustomerManagement --> Customer : manages
+EmployeeManagement --> EmployeeRepository : uses
+EmployeeManagement --> Employee : manages
+MaterialManagement --> MaterialRepository : uses
+MaterialManagement --> Material : manages
+
+CustomerRepository ..> Customer : creates/reads
+EmployeeRepository ..> Employee : creates/reads
+MaterialRepository ..> Material : creates/reads
+
+Form1 ..> DashBoard : navigates to
+Form1 ..> SignUpForm : opens
+
+@enduml
+```
+
+## Description
+
+This class diagram shows the complete structure of the WareHouse Application with the following key components:
+
+### Entity Layer
+- **Customer, Employee, Material**: Plain Old CLR Objects (POCOs) representing database entities
+
+### Authentication/Authorization Layer
+- **Person** (Abstract): Base class defining authentication contract
+- **Admin**: Concrete implementation handling admin login/logout
+
+### Data Access Layer
+- **DataAccess**: Centralized database access class using ADO.NET
+
+### Repository Layer (Data Access Pattern)
+- **CustomerRepository, EmployeeRepository, MaterialRepository**: Implement CRUD operations for each entity
+
+### Presentation Layer (UI)
+- **Form1**: Login form
+- **SignUpForm**: User registration form
+- **DashBoard**: Main application container
+- **MainDash**: Dashboard with statistics
+- **CustomerManagement, EmployeeManagement, MaterialManagement**: CRUD management user controls
+
+### Design Patterns Used
+1. **Repository Pattern**: Separates data access logic
+2. **Abstract Factory**: Person abstract class
+3. **Singleton-like**: DataAccess with connection string management
+4. **MVC/MVP**: Separation of UI, business logic, and data layers
+

@@ -32,16 +32,24 @@ namespace WareHouseApp
             
             // Calculate responsive card widths
             int smallCardWidth = Math.Max(220, (availableWidth - (spacing * 2)) / 3);
-            int largeCardWidth = Math.Max(320, (availableWidth - spacing) / 2);
+            int largeCardWidth = Math.Max(350, (availableWidth - spacing) / 2);
             
-            // Top row cards (3 columns)
+            // Top row cards (3 columns) - keep height consistent
             panelMaterials.Width = smallCardWidth;
+            panelMaterials.Height = 155;
             panelCustomers.Width = smallCardWidth;
+            panelCustomers.Height = 155;
             panelEmployees.Width = smallCardWidth;
+            panelEmployees.Height = 155;
             
-            // Middle row cards (2 columns)
+            // Middle row cards (2 columns) - increase height for visibility
             panelInventoryValue.Width = largeCardWidth;
+            panelInventoryValue.Height = 280;
             panelLowStock.Width = largeCardWidth;
+            panelLowStock.Height = 280;
+            
+            // Make Recent Activity panel width responsive
+            panelRecentActivity.Width = availableWidth;
             
             // Redraw panels with new sizes
             panelMaterials.Invalidate();
@@ -51,7 +59,7 @@ namespace WareHouseApp
             panelLowStock.Invalidate();
             panelRecentActivity.Invalidate();
             
-            // Recreate content with updated sizes
+            // Recreate content with updated sizes to adjust divider widths
             if (_data != null)
             {
                 LoadDashboardData();
@@ -206,34 +214,38 @@ namespace WareHouseApp
         {
             panel.Controls.Clear();
 
+            // Icon
             Label lblIcon = new Label();
             lblIcon.Text = icon;
-            lblIcon.Font = new Font("Segoe UI", 32F);
+            lblIcon.Font = new Font("Segoe UI", 28F);
             lblIcon.ForeColor = accentColor;
-            lblIcon.Location = new Point(20, 20);
+            lblIcon.Location = new Point(20, 18);
             lblIcon.AutoSize = true;
 
+            // Title
             Label lblTitle = new Label();
             lblTitle.Text = title;
             lblTitle.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             lblTitle.ForeColor = Color.FromArgb(52, 73, 94);
-            lblTitle.Location = new Point(20, 85);
+            lblTitle.Location = new Point(20, 80);
             lblTitle.AutoSize = true;
             lblTitle.MaximumSize = new Size(panel.Width - 40, 0);
 
+            // Value (big number)
             Label lblValue = new Label();
             lblValue.Text = value;
             lblValue.Font = new Font("Segoe UI", 26F, FontStyle.Bold);
             lblValue.ForeColor = accentColor;
-            lblValue.Location = new Point(panel.Width - 120, 22);
+            lblValue.Location = new Point(panel.Width - 100, 20);
             lblValue.AutoSize = true;
             lblValue.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 
+            // Subtitle
             Label lblSubtitle = new Label();
             lblSubtitle.Text = subtitle;
             lblSubtitle.Font = new Font("Segoe UI", 9F);
             lblSubtitle.ForeColor = Color.FromArgb(149, 165, 166);
-            lblSubtitle.Location = new Point(20, 110);
+            lblSubtitle.Location = new Point(20, 105);
             lblSubtitle.AutoSize = true;
             lblSubtitle.MaximumSize = new Size(panel.Width - 40, 0);
 
@@ -247,55 +259,64 @@ namespace WareHouseApp
         {
             panelInventoryValue.Controls.Clear();
 
+            // Title
             Label lblTitle = new Label();
             lblTitle.Text = "💰 Inventory Overview";
-            lblTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             lblTitle.ForeColor = Color.FromArgb(52, 73, 94);
-            lblTitle.Location = new Point(25, 20);
+            lblTitle.Location = new Point(20, 15);
             lblTitle.AutoSize = true;
-            lblTitle.MaximumSize = new Size(panelInventoryValue.Width - 50, 0);
 
+            // Total value - big but not too big
             Label lblTotalValue = new Label();
             lblTotalValue.Text = "$" + totalValue.ToString("N2");
-            lblTotalValue.Font = new Font("Segoe UI", 32F, FontStyle.Bold);
+            lblTotalValue.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
             lblTotalValue.ForeColor = Color.FromArgb(39, 174, 96);
-            lblTotalValue.Location = new Point(25, 60);
+            lblTotalValue.Location = new Point(20, 50);
             lblTotalValue.AutoSize = true;
-            lblTotalValue.MaximumSize = new Size(panelInventoryValue.Width - 50, 0);
 
+            // Subtitle
             Label lblValueText = new Label();
             lblValueText.Text = "Total Inventory Value";
-            lblValueText.Font = new Font("Segoe UI", 10F);
+            lblValueText.Font = new Font("Segoe UI", 9F);
             lblValueText.ForeColor = Color.FromArgb(127, 140, 141);
-            lblValueText.Location = new Point(25, 115);
+            lblValueText.Location = new Point(20, 90);
             lblValueText.AutoSize = true;
-            lblValueText.MaximumSize = new Size(panelInventoryValue.Width - 50, 0);
 
+            // Divider line
             Panel divider = new Panel();
             divider.BackColor = Color.FromArgb(230, 230, 230);
-            divider.Location = new Point(25, 145);
-            divider.Size = new Size(panelInventoryValue.Width - 50, 1);
+            divider.Location = new Point(20, 120);
+            divider.Size = new Size(panelInventoryValue.Width - 40, 1);
 
+            // Items count info
             Label lblItemsInfo = new Label();
-            lblItemsInfo.Text = "📊 " + itemCount.ToString() + " items in stock";
-            lblItemsInfo.Font = new Font("Segoe UI", 10F);
+            lblItemsInfo.Text = "📦 Total Items: " + itemCount.ToString();
+            lblItemsInfo.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             lblItemsInfo.ForeColor = Color.FromArgb(52, 73, 94);
-            lblItemsInfo.Location = new Point(25, 160);
+            lblItemsInfo.Location = new Point(20, 140);
             lblItemsInfo.AutoSize = true;
-            lblItemsInfo.MaximumSize = new Size(panelInventoryValue.Width - 50, 0);
 
+            // Calculate and show average value
             decimal avgValue = 0;
             if (itemCount > 0)
             {
                 avgValue = totalValue / itemCount;
             }
             Label lblAvgValue = new Label();
-            lblAvgValue.Text = "💵 Average: $" + avgValue.ToString("N2") + " per item";
-            lblAvgValue.Font = new Font("Segoe UI", 10F);
+            lblAvgValue.Text = "💵 Average Value: $" + avgValue.ToString("N2");
+            lblAvgValue.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             lblAvgValue.ForeColor = Color.FromArgb(52, 73, 94);
-            lblAvgValue.Location = new Point(25, 185);
+            lblAvgValue.Location = new Point(20, 170);
             lblAvgValue.AutoSize = true;
-            lblAvgValue.MaximumSize = new Size(panelInventoryValue.Width - 50, 0);
+
+            // Stock status indicator
+            Label lblStockStatus = new Label();
+            lblStockStatus.Text = "✓ Tracking " + itemCount + " unique materials";
+            lblStockStatus.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
+            lblStockStatus.ForeColor = Color.FromArgb(149, 165, 166);
+            lblStockStatus.Location = new Point(20, 210);
+            lblStockStatus.AutoSize = true;
 
             panelInventoryValue.Controls.Add(lblTitle);
             panelInventoryValue.Controls.Add(lblTotalValue);
@@ -303,75 +324,99 @@ namespace WareHouseApp
             panelInventoryValue.Controls.Add(divider);
             panelInventoryValue.Controls.Add(lblItemsInfo);
             panelInventoryValue.Controls.Add(lblAvgValue);
+            panelInventoryValue.Controls.Add(lblStockStatus);
         }
 
         private void CreateLowStockPanel(int lowStockCount)
         {
             panelLowStock.Controls.Clear();
 
+            // Title
             Label lblTitle = new Label();
             lblTitle.Text = "⚠️ Stock Alert";
-            lblTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             lblTitle.ForeColor = Color.FromArgb(52, 73, 94);
-            lblTitle.Location = new Point(25, 20);
+            lblTitle.Location = new Point(20, 15);
             lblTitle.AutoSize = true;
-            lblTitle.MaximumSize = new Size(panelLowStock.Width - 50, 0);
 
+            // Determine alert status
             Color alertColor;
             string statusIcon;
+            string statusMessage;
+            
             if (lowStockCount > 0)
             {
-                alertColor = Color.FromArgb(231, 76, 60);
-                statusIcon = "🔴";
+                alertColor = Color.FromArgb(231, 76, 60); // Red
+                statusIcon = "⚠️";
+                statusMessage = "Items need restocking";
             }
             else
             {
-                alertColor = Color.FromArgb(39, 174, 96);
-                statusIcon = "✅";
+                alertColor = Color.FromArgb(39, 174, 96); // Green
+                statusIcon = "✓";
+                statusMessage = "All items well stocked";
             }
 
+            // Low stock count number
             Label lblLowStockCount = new Label();
             lblLowStockCount.Text = lowStockCount.ToString();
-            lblLowStockCount.Font = new Font("Segoe UI", 48F, FontStyle.Bold);
+            lblLowStockCount.Font = new Font("Segoe UI", 28F, FontStyle.Bold);
             lblLowStockCount.ForeColor = alertColor;
-            lblLowStockCount.Location = new Point(25, 60);
+            lblLowStockCount.Location = new Point(20, 50);
             lblLowStockCount.AutoSize = true;
 
-            string statusText = "";
+            // Status text
+            Label lblStatus = new Label();
+            lblStatus.Text = statusIcon + " " + statusMessage;
+            lblStatus.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblStatus.ForeColor = alertColor;
+            lblStatus.Location = new Point(20, 95);
+            lblStatus.AutoSize = true;
+
+            // Divider
+            Panel divider = new Panel();
+            divider.BackColor = Color.FromArgb(230, 230, 230);
+            divider.Location = new Point(20, 130);
+            divider.Size = new Size(panelLowStock.Width - 40, 1);
+
+            // Threshold info
+            Label lblThreshold = new Label();
+            lblThreshold.Text = "📋 Threshold: Quantity < 100 units";
+            lblThreshold.Font = new Font("Segoe UI", 9F);
+            lblThreshold.ForeColor = Color.FromArgb(127, 140, 141);
+            lblThreshold.Location = new Point(20, 150);
+            lblThreshold.AutoSize = true;
+
+            // Action message
+            Label lblAction = new Label();
             if (lowStockCount > 0)
             {
-                statusText = statusIcon + " Items need restocking";
+                lblAction.Text = "⚡ Action Required: Reorder stock soon";
+                lblAction.ForeColor = Color.FromArgb(231, 76, 60);
             }
             else
             {
-                statusText = statusIcon + " All items well stocked!";
+                lblAction.Text = "✨ Status: Inventory levels optimal";
+                lblAction.ForeColor = Color.FromArgb(39, 174, 96);
             }
-            
-            Label lblStatus = new Label();
-            lblStatus.Text = statusText;
-            lblStatus.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblStatus.ForeColor = alertColor;
-            lblStatus.Location = new Point(25, 135);
-            lblStatus.AutoSize = true;
-            lblStatus.MaximumSize = new Size(panelLowStock.Width - 50, 0);
+            lblAction.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
+            lblAction.Location = new Point(20, 180);
+            lblAction.AutoSize = true;
 
-            Panel divider = new Panel();
-            divider.BackColor = Color.FromArgb(230, 230, 230);
-            divider.Location = new Point(25, 170);
-            divider.Size = new Size(panelLowStock.Width - 50, 1);
-
+            // Additional info
             Label lblInfo = new Label();
-            lblInfo.Text = "📋 Low stock threshold: Qty < 100 units";
-            lblInfo.Font = new Font("Segoe UI", 9F);
+            lblInfo.Text = "Monitor stock levels regularly";
+            lblInfo.Font = new Font("Segoe UI", 8F);
             lblInfo.ForeColor = Color.FromArgb(149, 165, 166);
-            lblInfo.Location = new Point(25, 185);
+            lblInfo.Location = new Point(20, 220);
             lblInfo.AutoSize = true;
-            lblInfo.MaximumSize = new Size(panelLowStock.Width - 50, 0);
 
             panelLowStock.Controls.Add(lblTitle);
             panelLowStock.Controls.Add(lblLowStockCount);
             panelLowStock.Controls.Add(lblStatus);
             panelLowStock.Controls.Add(divider);
+            panelLowStock.Controls.Add(lblThreshold);
+            panelLowStock.Controls.Add(lblAction);
             panelLowStock.Controls.Add(lblInfo);
         }
 

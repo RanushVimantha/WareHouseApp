@@ -1,0 +1,163 @@
+@startuml WareHouseApp_MaterialActivity
+
+|User|
+start
+:Navigate to Materials section;
+
+|System|
+:Load MaterialManagement UserControl;
+:Initialize MaterialRepository;
+:Execute GetAll() query;
+:Retrieve all materials from database;
+:Bind data to DataGridView;
+
+|User|
+:View materials in grid;
+
+repeat
+  |User|
+  :Choose action;
+  
+  split
+    -> Add Material;
+    |User|
+    :Fill in material form;
+    :Enter Material Name;
+    :Enter Quantity;
+    :Enter Price;
+    :Enter Description (optional);
+    :Click "Add" button;
+    
+    |System|
+    :Validate input;
+    
+    if (Validation successful?) then (yes)
+      :Create Material object;
+      :Call Repository.Add();
+      :Execute INSERT query;
+      :Insert into Materials table;
+      if (Insert successful?) then (yes)
+        :Show success message;
+        :Refresh material list;
+        :Clear form;
+      else (no)
+        :Show error message;
+      endif
+    else (no)
+      :Show validation error;
+    endif
+    
+  split again
+    -> Update Material;
+    |User|
+    :Click on material row in grid;
+    
+    |System|
+    :Populate form with selected material;
+    :Enable Update & Delete buttons;
+    :Disable Add button;
+    
+    |User|
+    :Modify material data;
+    :Click "Update" button;
+    
+    |System|
+    :Validate input;
+    
+    if (Validation successful?) then (yes)
+      :Create Material object with ID;
+      :Call Repository.Update();
+      :Execute UPDATE query;
+      :Update Materials table;
+      if (Update successful?) then (yes)
+        :Show success message;
+        :Refresh material list;
+        :Clear form;
+      else (no)
+        :Show error message;
+      endif
+    else (no)
+      :Show validation error;
+    endif
+    
+  split again
+    -> Delete Material;
+    |User|
+    :Select material from grid;
+    :Click "Delete" button;
+    
+    |System|
+    :Show confirmation dialog;
+    
+    |User|
+    :Confirm deletion;
+    
+    if (User confirmed?) then (yes)
+      |System|
+      :Call Repository.Delete();
+      :Execute DELETE query;
+      :Remove from Materials table;
+      if (Delete successful?) then (yes)
+        :Show success message;
+        :Refresh material list;
+        :Clear form;
+      else (no)
+        :Show error message;
+      endif
+    else (no)
+      :Cancel operation;
+    endif
+    
+  split again
+    -> View Inventory Value;
+    |User|
+    :Navigate to Dashboard;
+    
+    |System|
+    :Execute aggregate query;
+    note right
+      SELECT SUM(Quantity * Price) 
+      FROM Materials
+    end note
+    :Calculate total inventory value;
+    :Display on Dashboard card;
+    
+  split again
+    -> Check Low Stock;
+    |System|
+    :Execute count query;
+    note right
+      SELECT COUNT(*) FROM Materials 
+      WHERE Quantity < 100
+    end note
+    :Count low stock items;
+    :Display alert on Dashboard;
+    if (Low stock items > 0?) then (yes)
+      :Show red warning indicator;
+    else (no)
+      :Show green success indicator;
+    endif
+    
+  split again
+    -> Clear Form;
+    |User|
+    :Click "Clear" button;
+    
+    |System|
+    :Clear all text fields;
+    :Reset selected ID to 0;
+    :Enable Add button;
+    :Disable Update & Delete buttons;
+    
+  end split
+  
+repeat while (Continue managing materials?) is (yes)
+-> no;
+
+|User|
+:Navigate away or logout;
+
+stop
+
+@enduml
+

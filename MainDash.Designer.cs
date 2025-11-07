@@ -59,9 +59,9 @@ namespace WareHouseApp
             this.mainTableLayout.Padding = new System.Windows.Forms.Padding(20);
             this.mainTableLayout.RowCount = 4;
             this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 160F));
-            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 240F));
-            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 175F));
+            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 300F));
+            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 260F));
             this.mainTableLayout.Size = new System.Drawing.Size(820, 700);
             this.mainTableLayout.TabIndex = 0;
             // 
@@ -87,7 +87,7 @@ namespace WareHouseApp
             this.topCardsLayout.Location = new System.Drawing.Point(23, 93);
             this.topCardsLayout.Name = "topCardsLayout";
             this.topCardsLayout.Padding = new System.Windows.Forms.Padding(5);
-            this.topCardsLayout.Size = new System.Drawing.Size(774, 154);
+            this.topCardsLayout.Size = new System.Drawing.Size(774, 169);
             this.topCardsLayout.TabIndex = 1;
             // 
             // panelMaterials
@@ -96,7 +96,7 @@ namespace WareHouseApp
             this.panelMaterials.Location = new System.Drawing.Point(8, 8);
             this.panelMaterials.Margin = new System.Windows.Forms.Padding(3, 3, 12, 3);
             this.panelMaterials.Name = "panelMaterials";
-            this.panelMaterials.Size = new System.Drawing.Size(240, 140);
+            this.panelMaterials.Size = new System.Drawing.Size(240, 155);
             this.panelMaterials.TabIndex = 0;
             // 
             // panelCustomers
@@ -105,7 +105,7 @@ namespace WareHouseApp
             this.panelCustomers.Location = new System.Drawing.Point(263, 8);
             this.panelCustomers.Margin = new System.Windows.Forms.Padding(3, 3, 12, 3);
             this.panelCustomers.Name = "panelCustomers";
-            this.panelCustomers.Size = new System.Drawing.Size(240, 140);
+            this.panelCustomers.Size = new System.Drawing.Size(240, 155);
             this.panelCustomers.TabIndex = 1;
             // 
             // panelEmployees
@@ -114,7 +114,7 @@ namespace WareHouseApp
             this.panelEmployees.Location = new System.Drawing.Point(518, 8);
             this.panelEmployees.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.panelEmployees.Name = "panelEmployees";
-            this.panelEmployees.Size = new System.Drawing.Size(240, 140);
+            this.panelEmployees.Size = new System.Drawing.Size(240, 155);
             this.panelEmployees.TabIndex = 2;
             // 
             // middleCardsLayout
@@ -122,10 +122,10 @@ namespace WareHouseApp
             this.middleCardsLayout.Controls.Add(this.panelInventoryValue);
             this.middleCardsLayout.Controls.Add(this.panelLowStock);
             this.middleCardsLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.middleCardsLayout.Location = new System.Drawing.Point(23, 253);
+            this.middleCardsLayout.Location = new System.Drawing.Point(23, 268);
             this.middleCardsLayout.Name = "middleCardsLayout";
             this.middleCardsLayout.Padding = new System.Windows.Forms.Padding(5);
-            this.middleCardsLayout.Size = new System.Drawing.Size(774, 234);
+            this.middleCardsLayout.Size = new System.Drawing.Size(774, 294);
             this.middleCardsLayout.TabIndex = 2;
             // 
             // panelInventoryValue
@@ -134,7 +134,7 @@ namespace WareHouseApp
             this.panelInventoryValue.Location = new System.Drawing.Point(8, 8);
             this.panelInventoryValue.Margin = new System.Windows.Forms.Padding(3, 3, 12, 3);
             this.panelInventoryValue.Name = "panelInventoryValue";
-            this.panelInventoryValue.Size = new System.Drawing.Size(370, 220);
+            this.panelInventoryValue.Size = new System.Drawing.Size(370, 280);
             this.panelInventoryValue.TabIndex = 0;
             // 
             // panelLowStock
@@ -143,7 +143,7 @@ namespace WareHouseApp
             this.panelLowStock.Location = new System.Drawing.Point(393, 8);
             this.panelLowStock.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.panelLowStock.Name = "panelLowStock";
-            this.panelLowStock.Size = new System.Drawing.Size(370, 220);
+            this.panelLowStock.Size = new System.Drawing.Size(370, 280);
             this.panelLowStock.TabIndex = 1;
             // 
             // panelRecentActivity
@@ -152,10 +152,10 @@ namespace WareHouseApp
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelRecentActivity.BackColor = System.Drawing.Color.White;
-            this.panelRecentActivity.Location = new System.Drawing.Point(23, 493);
-            this.panelRecentActivity.MinimumSize = new System.Drawing.Size(0, 180);
+            this.panelRecentActivity.Location = new System.Drawing.Point(23, 568);
+            this.panelRecentActivity.MinimumSize = new System.Drawing.Size(0, 220);
             this.panelRecentActivity.Name = "panelRecentActivity";
-            this.panelRecentActivity.Size = new System.Drawing.Size(774, 200);
+            this.panelRecentActivity.Size = new System.Drawing.Size(774, 260);
             this.panelRecentActivity.TabIndex = 3;
             // 
             // MainDash

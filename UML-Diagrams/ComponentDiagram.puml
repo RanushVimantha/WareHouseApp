@@ -1,0 +1,142 @@
+@startuml WareHouseApp_ComponentDiagram
+
+skinparam componentStyle rectangle
+skinparam component {
+    BackgroundColor White
+    BorderColor Black
+    ArrowColor Black
+}
+
+' External Systems
+database "SQL Server\nWarehouseDB" as DB {
+    component [Users Table]
+    component [Customers Table]
+    component [Employees Table]
+    component [Materials Table]
+}
+
+' Configuration
+component [App.config] as Config
+
+' Presentation Layer
+package "Presentation Layer" <<Rectangle>> {
+    component [Form1\n(Login)] as LoginForm
+    component [SignUpForm] as SignupForm
+    component [DashBoard\n(Main Form)] as Dashboard
+    
+    package "User Controls" {
+        component [MainDash\n(Dashboard Control)] as MainDashControl
+        component [CustomerManagement] as CustomerUI
+        component [EmployeeManagement] as EmployeeUI
+        component [MaterialManagement] as MaterialUI
+    }
+}
+
+' Business Logic Layer
+package "Business Logic Layer" <<Rectangle>> {
+    package "Authentication" {
+        component [Person\n(Abstract Base)] as Person
+        component [Admin] as Admin
+    }
+    
+    package "Repositories" {
+        component [CustomerRepository] as CustomerRepo
+        component [EmployeeRepository] as EmployeeRepo
+        component [MaterialRepository] as MaterialRepo
+    }
+}
+
+' Data Access Layer
+package "Data Access Layer" <<Rectangle>> {
+    component [DataAccess\n(ADO.NET)] as DataAccess
+}
+
+' Domain Model / Entities
+package "Domain Model" <<Rectangle>> {
+    component [Customer Entity] as CustomerEntity
+    component [Employee Entity] as EmployeeEntity
+    component [Material Entity] as MaterialEntity
+}
+
+' Resources
+package "Resources" <<Rectangle>> {
+    component [Images\n(administrator.png, etc.)] as Images
+    component [LoginPage Strings] as Strings
+}
+
+' Relationships - Presentation to Business Logic
+LoginForm --> Admin : <<uses>>
+SignupForm --> DataAccess : <<uses>>
+Dashboard --> MainDashControl : <<contains>>
+Dashboard --> CustomerUI : <<loads>>
+Dashboard --> EmployeeUI : <<loads>>
+Dashboard --> MaterialUI : <<loads>>
+
+MainDashControl --> DataAccess : <<uses>>
+CustomerUI --> CustomerRepo : <<uses>>
+EmployeeUI --> EmployeeRepo : <<uses>>
+MaterialUI --> MaterialRepo : <<uses>>
+
+' Relationships - Business Logic
+Admin --|> Person : <<implements>>
+Admin --> DataAccess : <<uses>>
+CustomerRepo --> DataAccess : <<uses>>
+EmployeeRepo --> DataAccess : <<uses>>
+MaterialRepo --> DataAccess : <<uses>>
+
+' Relationships - Repositories to Entities
+CustomerRepo ..> CustomerEntity : <<creates/manages>>
+EmployeeRepo ..> EmployeeEntity : <<creates/manages>>
+MaterialRepo ..> MaterialEntity : <<creates/manages>>
+
+' Relationships - Data Access to Database
+DataAccess --> DB : <<connects>>
+DataAccess --> Config : <<reads connection string>>
+
+' Relationships - UI to Resources
+LoginForm ..> Images : <<uses>>
+LoginForm ..> Strings : <<uses>>
+Dashboard ..> Images : <<uses>>
+
+' Navigation
+LoginForm ..> Dashboard : <<opens on success>>
+LoginForm ..> SignupForm : <<opens>>
+
+' Interface definitions
+interface "IDataOperations" as IDataOps
+DataAccess ..|> IDataOps : <<implements>>
+
+note right of DataAccess
+  Provides centralized database access:
+  - ExecuteQuery()
+  - ExecuteNonQuery()
+  - ExecuteScalar()
+end note
+
+note right of CustomerRepo
+  Implements Repository Pattern:
+  - GetAll()
+  - GetById()
+  - Add()
+  - Update()
+  - Delete()
+  - Search()
+end note
+
+note left of Dashboard
+  Main container managing:
+  - Navigation between modules
+  - User session
+  - Dynamic UserControl loading
+end note
+
+note right of DB
+  Contains all application data:
+  - User credentials (Admin)
+  - Customer records
+  - Employee records
+  - Material inventory
+end note
+
+@enduml
+

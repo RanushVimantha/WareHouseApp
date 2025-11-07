@@ -78,6 +78,14 @@ BEGIN
 END
 GO
 
+-- Add test operator account
+IF NOT EXISTS (SELECT * FROM Users WHERE UserName = 'operator')
+BEGIN
+    INSERT INTO Users (UserName, [Password], [Role])
+    VALUES ('operator', 'operator123', 'Operator');
+END
+GO
+
 IF NOT EXISTS (SELECT * FROM Materials)
 BEGIN
     INSERT INTO Materials (MaterialName, Quantity, Price, [Description])

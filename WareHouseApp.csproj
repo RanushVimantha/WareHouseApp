@@ -104,6 +104,7 @@
       <DependentUpon>MaterialManagement.cs</DependentUpon>
     </Compile>
     <Compile Include="People\Admin.cs" />
+    <Compile Include="People\Operator.cs" />
     <Compile Include="People\Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
