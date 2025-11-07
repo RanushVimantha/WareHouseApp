@@ -57,12 +57,12 @@ namespace WareHouseApp
             this.dgvCustomers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvCustomers.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dgvCustomers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCustomers.Location = new System.Drawing.Point(20, 280);
+            this.dgvCustomers.Location = new System.Drawing.Point(20, 325);
             this.dgvCustomers.Name = "dgvCustomers";
             this.dgvCustomers.ReadOnly = true;
             this.dgvCustomers.RowHeadersWidth = 51;
             this.dgvCustomers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCustomers.Size = new System.Drawing.Size(760, 210);
+            this.dgvCustomers.Size = new System.Drawing.Size(760, 165);
             this.dgvCustomers.TabIndex = 0;
             this.dgvCustomers.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCustomers_CellClick);
             // 
@@ -101,10 +101,10 @@ namespace WareHouseApp
             // txtAddress
             // 
             this.txtAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.txtAddress.Location = new System.Drawing.Point(465, 45);
+            this.txtAddress.Location = new System.Drawing.Point(15, 160);
             this.txtAddress.Multiline = true;
             this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(220, 91);
+            this.txtAddress.Size = new System.Drawing.Size(425, 60);
             this.txtAddress.TabIndex = 5;
             // 
             // lblTitle
@@ -162,7 +162,7 @@ namespace WareHouseApp
             // 
             this.lblAddress.AutoSize = true;
             this.lblAddress.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblAddress.Location = new System.Drawing.Point(465, 20);
+            this.lblAddress.Location = new System.Drawing.Point(15, 137);
             this.lblAddress.Name = "lblAddress";
             this.lblAddress.Size = new System.Drawing.Size(76, 23);
             this.lblAddress.TabIndex = 11;
@@ -175,9 +175,9 @@ namespace WareHouseApp
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(700, 30);
+            this.btnAdd.Location = new System.Drawing.Point(470, 30);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(70, 35);
+            this.btnAdd.Size = new System.Drawing.Size(145, 40);
             this.btnAdd.TabIndex = 12;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = false;
@@ -191,9 +191,9 @@ namespace WareHouseApp
             this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpdate.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
-            this.btnUpdate.Location = new System.Drawing.Point(700, 70);
+            this.btnUpdate.Location = new System.Drawing.Point(630, 30);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(70, 35);
+            this.btnUpdate.Size = new System.Drawing.Size(145, 40);
             this.btnUpdate.TabIndex = 13;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = false;
@@ -207,9 +207,9 @@ namespace WareHouseApp
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(700, 110);
+            this.btnDelete.Location = new System.Drawing.Point(470, 85);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(70, 35);
+            this.btnDelete.Size = new System.Drawing.Size(145, 40);
             this.btnDelete.TabIndex = 14;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = false;
@@ -222,9 +222,9 @@ namespace WareHouseApp
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClear.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnClear.ForeColor = System.Drawing.Color.White;
-            this.btnClear.Location = new System.Drawing.Point(15, 150);
+            this.btnClear.Location = new System.Drawing.Point(630, 85);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(70, 30);
+            this.btnClear.Size = new System.Drawing.Size(145, 40);
             this.btnClear.TabIndex = 15;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = false;
@@ -237,9 +237,9 @@ namespace WareHouseApp
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnSearch.ForeColor = System.Drawing.Color.White;
-            this.btnSearch.Location = new System.Drawing.Point(100, 150);
+            this.btnSearch.Location = new System.Drawing.Point(470, 145);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(80, 30);
+            this.btnSearch.Size = new System.Drawing.Size(305, 40);
             this.btnSearch.TabIndex = 16;
             this.btnSearch.Text = "Refresh";
             this.btnSearch.UseVisualStyleBackColor = false;
@@ -266,7 +266,7 @@ namespace WareHouseApp
             this.panel1.Controls.Add(this.lblPhone);
             this.panel1.Location = new System.Drawing.Point(20, 70);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(785, 190);
+            this.panel1.Size = new System.Drawing.Size(785, 235);
             this.panel1.TabIndex = 17;
             // 
             // CustomerManagement
